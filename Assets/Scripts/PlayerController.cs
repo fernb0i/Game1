@@ -32,7 +32,6 @@ public class PlayerController : NetworkBehaviour
         base.OnStartClient();
         if (base.IsOwner)
         {
-            characterController = GetComponent<CharacterController>();
             playerCamera = Camera.main;
             playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
             playerCamera.transform.SetParent(transform);
@@ -43,7 +42,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
  
- /*
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -52,7 +50,6 @@ public class PlayerController : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    */
  
     void Update()
     {

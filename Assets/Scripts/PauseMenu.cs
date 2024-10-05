@@ -22,7 +22,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pausePanel.SetActive(true);  // Show the pause menu
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         //Time.timeScale = 0f;         // Freeze game time
         isPaused = true;
     }

@@ -33,30 +33,17 @@ public class SamPlayer : NetworkBehaviour
             // Ignore the character's collider(s) for camera obstruction checks
             OrbitCamera.IgnoredColliders.Clear();
             OrbitCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
-
-            //playerCamera = Camera.main;
-            //playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
-            //playerCamera.transform.SetParent(transform);
         }
         else
         {
-            gameObject.GetComponent<PlayerController>().enabled = false;
+            gameObject.GetComponent<SamPlayer>().enabled = false;
         }
-    }
-    
-    /*
-    private void Start()
+    }    
+
+    void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // Tell camera to follow transform
-        OrbitCamera.SetFollowTransform(CameraFollowPoint);
-
-        // Ignore the character's collider(s) for camera obstruction checks
-        OrbitCamera.IgnoredColliders.Clear();
-        OrbitCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
+        Cursor.lockState = CursorLockMode.Locked;   
     }
-    */
 
     private void Update()
     {
@@ -77,16 +64,20 @@ public class SamPlayer : NetworkBehaviour
         Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 
         // Prevent moving the camera while the cursor isn't locked
+
+        
         if (Cursor.lockState != CursorLockMode.Locked)
         {
             lookInputVector = Vector3.zero;
         }
 
+
         // Input for zooming the camera (disabled in WebGL because it can cause problems)
         float scrollInput = -Input.GetAxis(MouseScrollInput);
-#if UNITY_WEBGL
-    scrollInput = 0f;
-#endif
+
+        #if UNITY_WEBGL
+            scrollInput = 0f;
+        #endif
 
         // Apply inputs to the camera
         OrbitCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
