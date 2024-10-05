@@ -51,10 +51,19 @@ public class PauseMenu : MonoBehaviour
         //Time.timeScale = 1f;  // Ensure timeScale is normal before quitting
         Application.Quit();    // Quit the application
         // For testing in the editor:
+    
+        #if UNITY_EDITOR
+            // Stop playing the game in the Unity Editor
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+
         /*
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
         */
-    }
+    } 
+
+
+
 }

@@ -5,7 +5,7 @@ using FishNet.Connection;
 using FishNet.Object;
 //using System.Linq;
 
-public class SamPlayer : MonoBehaviour
+public class SamPlayer : NetworkBehaviour
 {
     public SamCharacterCamera OrbitCamera;
     public Transform CameraFollowPoint;
@@ -17,6 +17,34 @@ public class SamPlayer : MonoBehaviour
     private const string HorizontalInput = "Horizontal";
     private const string VerticalInput = "Vertical";
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (base.IsOwner)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Assign the Main Camera's SamCharacterCamera component to OrbitCamera
+            OrbitCamera = Camera.main.GetComponent<SamCharacterCamera>();
+
+            // Tell camera to follow transform
+            OrbitCamera.SetFollowTransform(CameraFollowPoint);
+
+            // Ignore the character's collider(s) for camera obstruction checks
+            OrbitCamera.IgnoredColliders.Clear();
+            OrbitCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
+
+            //playerCamera = Camera.main;
+            //playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
+            //playerCamera.transform.SetParent(transform);
+        }
+        else
+        {
+            gameObject.GetComponent<PlayerController>().enabled = false;
+        }
+    }
+    
+    /*
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -28,6 +56,7 @@ public class SamPlayer : MonoBehaviour
         OrbitCamera.IgnoredColliders.Clear();
         OrbitCamera.IgnoredColliders.AddRange(Character.GetComponentsInChildren<Collider>());
     }
+    */
 
     private void Update()
     {
